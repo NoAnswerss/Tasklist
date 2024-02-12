@@ -1,21 +1,18 @@
 <?php
 
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TodolistController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/', [TodolistController::class, 'index']) -> name('index');
+Route::post('/', [TodolistController::class, 'store']) -> name('store');
+Route::post('/complete/{todolist}', [TodolistController::class, 'complete'])->name('complete');
+Route::delete('/{todolist:id}', [TodolistController::class, 'destroy']) -> name('destroy');
 
-Route::get('/',[TaskController::class, 'index']) -> name('index');
-Route::post('/', [TaskController::class, 'store']) -> name('store');
-Route::post('/complete{tasklist}', [TaskController::class, 'complete']) -> name('complete');
-Route::delete('{todolist:id}', [TaskController::class, 'delete']) -> name('delete');
+// Search option 
+Route::get('/todolists/search', [TodolistController::class, 'search'])->name('todolists.search');
+
+// Return the view file with the form to update the task.
+Route::get('edit/{todolist}', [TodolistController::class, 'edit']) ->name('edit');
+
+// The post route to update the task.
+Route::patch('update/{todolist}', [TodolistController::class, 'update']) ->name('update');
